@@ -1,0 +1,216 @@
+<html>
+<head>
+    <title>chat UI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="author" content="https://blog.csdn.net/q475254344">
+    <link rel="stylesheet" href="./css/chat.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+    <script src="./js/home.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<script>
+    document.getElementsByTagName('body').height=window.innerHeight;
+</script>
+<body class="box">
+<div class="leftbar" >
+    <ul>
+        <li><i class="fas fa-user" onclick="gotoPersonalCenter()"></i></li>
+        <li><i class="fas fa-users"></i></li>
+        <li><i class="fas fa-smile"></i></li>
+        <li><i class="fas fa-envelope"></i></li>
+        <li><i class="fas fa-bell"></i></li>
+        <li><i class="fas fa-calendar-alt"></i></li>
+        <li><i class="fas fa-power-off"></i></li>
+    </ul>
+</div>
+<div class="mainbody middle">
+<div class="form-box front">
+<div class="container">
+    <div class="chatbox">
+        <div class="chatleft">
+            <div class="top">
+                <i class="fas fa-bars" style="font-size: 1.4em"></i>
+                <input type="text" id="inputUsername" placeholder="搜索用户" style="width: 140px; height: 36px; margin-left: 25px;">
+                <script>
+                    // document.getElementById('inputLoginUsername').innerHTML=localStorage.getItem("logName");
+                    // //建立websocket//
+                    // var mylogname = localStorage.getItem("logName");
+                    // if ('WebSocket' in window){
+                    //     alert("support websocket");
+                    //     websocket = new WebSocket('ws://localhost:8080/connectWebSocket/'+mylogname);
+                    //     console.log(websocket)
+                    // }
+                    // else {
+                    //     alert("not support websocket");
+                    // }
+                </script>
+                <button class="searchbtn" onclick="SearchUser()"></style><i class="fas fa-search"></i></button>
+            </div>
+            <div class="center" >
+                <ul id="UserInfoInsert">
+                    <li>
+                        <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                        <span style="margin-left: 10px;" id="inputLoginUsername">Barack Obama</span>
+<!--                        <script>document.getElementById('inputLoginUsername').innerHTML="localStorage.getItem()";</script>-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="chatright">
+            <div class="top">
+                <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                <span style="margin-left: 20px;" id="wantedChangingName">Barack Obama</span>
+                <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;" onclick="gotothisPersonCenter()"></i>
+            </div>
+            <div class="center" id="messageBox">
+<!--                <div style="float:right;">-->
+<!--                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                    <p class="msgcard">This message on the left!</p>-->
+<!--                </div>-->
+<!--                <div style="float:right;position: fixed">-->
+<!--                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                    <p class="msgcard">This message on the reft!</p>-->
+<!--                </div>-->
+<!--                <ul  class="ulleft">-->
+<!--                    <li class="messageLi">-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This message on the left!</p>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul id="webSocketInputPlace" class="ulright">-->
+<!--                    <li class="messageLi">-->
+<!--                        <p class="msgcard">This message on the right!</p>-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul  class="ulleft">-->
+<!--                    <li class="messageLi">-->
+<!--&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This message on the right!</p>-->
+<!--                        &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This message on the left!</p>-->
+<!--                    </li>-->
+<!--                </ul>-->
+                <!--                    <li class="msgleft">-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+<!--                    </li>-->
+<!--                    <li class="msgright">-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This message on the right!</p>-->
+<!--                    </li>-->
+<!--                    <li class="msgleft">-->
+<!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+<!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+<!--                    </li>-->
+            </div>
+            <div class="footer">
+                <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..." id="testWebsocket"></textarea>
+                <button class="sendbtn" onclick="send()">发送</button>
+<!--                <p>Click here to <a id="signup">注册</a></p>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--    <script>-->
+<!--        // 点击sigup触发翻转样式-->
+<!--        $("#signup").click(function() {-->
+<!--            $(".middle").toggleClass("middle-flip");-->
+<!--        });-->
+<!--    </script>-->
+</div>
+<!--<div class="form-box back">-->
+<!--    <div class="container">-->
+<!--        <div class="chatbox">-->
+<!--            <div class="chatleft">-->
+<!--                <div class="top">-->
+<!--                    <i class="fas fa-bars" style="font-size: 1.4em"></i>-->
+<!--                    <input type="text" id="inputUsername1" placeholder="search" style="width: 140px; height: 36px; margin-left: 25px;">-->
+<!--                    <button class="searchbtn" onclick="SearchUser()"></style><i class="fas fa-search"></i></button>-->
+<!--                </div>-->
+<!--                <div class="center" >-->
+<!--                    <ul id="UserInfoInsert1">-->
+<!--                        <li>-->
+<!--                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+<!--                            <span style="margin-left: 10px;" id="inputLoginUsername1">Personal Center</span>-->
+<!--                            &lt;!&ndash;                        <script>document.getElementById('inputLoginUsername').innerHTML="localStorage.getItem()";</script>&ndash;&gt;-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="chatright">-->
+<!--                <div class="top">-->
+<!--                    <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+<!--                    <span style="margin-left: 20px;" id="wantedChangingName1">Barack Obama</span>-->
+<!--                    <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;" onclick="gotothisPersonCenter()"></i>-->
+<!--                </div>-->
+<!--                <div class="center" id="messageBox1">-->
+<!--                    &lt;!&ndash;                <div style="float:right;">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <div style="float:right;position: fixed">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <p class="msgcard">This message on the reft!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <ul  class="ulleft">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <ul id="webSocketInputPlace" class="ulright">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <ul  class="ulleft">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+<!--                    &lt;!&ndash;&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <ul>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="msgleft">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="msgright">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    <li class="msgleft">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                </div>-->
+<!--                <div class="footer">-->
+<!--                    <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..." id="testWebsocket1"></textarea>-->
+<!--                    <button class="sendbtn" onclick="send()">发送</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+</div>
+</body>
+
+</html>

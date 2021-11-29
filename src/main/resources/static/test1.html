@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天对话框</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #maxbox{width: 450px;height: 500px;border: 1px solid blue;margin: 0 auto;}
+        #word{width: 400px;height: 350px;border: 1px dashed #ccc;margin: 0 auto 10px;}
+        #box{width: 396px;height: 80px;margin: 0 22px 5px;}
+        #btn{width: 120px; height: 35px;margin-left: 300px;}
+    </style>
+</head>
+<body>
+<div id="maxbox">
+    <div id="word"></div>
+    <textarea name="" id="box"></textarea>
+    <input type="button" id="btn" value="发送">
+</div>
+</body>
+<script>
+    var oword = document.getElementById("word");
+    var obox = document.getElementById("box");
+    var obtn = document.getElementById("btn");
+
+    var a = 1;//提前声明一个变量，给对话框用来分左右
+    obtn.onclick = function(){
+        //创建元素(标签)，并放入相应父元素中
+        var op1 = document.createElement("p");
+        var odiv = document.createElement("div");
+        odiv.appendChild(op1);
+        oword.appendChild(odiv);
+
+        op1.style.border = "1px solid #ccc";
+        op1.style.borderRadius = "10px";//-去掉，小驼峰命名
+        op1.style.maxWidth = "200px";//最大宽度(也是小驼峰)
+        op1.style.margin="10px"
+        op1.style.padding="5px"
+        op1.innerHTML = obox.value;
+        odiv.style.overflow="hidden";
+        //解决子元素float带来的高度塌陷(会同一行显示)
+        obox.value="";//清空文本域的内容
+
+        if(a%2===1){
+            op1.style.background = "pink";
+            op1.style.float="left";
+            a++;
+        }else{
+            op1.style.background = "greenyellow";
+            op1.style.float="right";
+            a++;
+        }
+    }
+</script>
+</html>

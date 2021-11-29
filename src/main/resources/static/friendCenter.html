@@ -1,0 +1,197 @@
+<html>
+<head>
+    <title>chat UI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="author" content="https://blog.csdn.net/q475254344">
+    <link href="./css/chat.css" rel="stylesheet">
+    <script src="./js/personalcenter.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+    <!--    <script src="./js/home.js"></script>-->
+</head>
+<script>
+    document.getElementsByTagName('body').height=window.innerHeight;
+</script>
+<body class="box">
+<div class="leftbar">
+    <ul>
+        <li><i class="fas fa-user"></i></li>
+        <li><i class="fas fa-users"></i></li>
+        <li><i class="fas fa-smile"></i></li>
+        <li><i class="fas fa-envelope"></i></li>
+        <li><i class="fas fa-bell"></i></li>
+        <li><i class="fas fa-calendar-alt"></i></li>
+        <li><i class="fas fa-power-off"></i></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="chatbox">
+        <div class="chatleft">
+            <div class="top">
+                <!--                <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+                <span style="margin-left: 20px;">Personal Center</span>
+                <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;"></i>
+
+                <!--                <i class="fas fa-bars" style="font-size: 1.4em"></i>-->
+                <!--                <input type="text" id="inputUsername" placeholder="search" style="width: 140px; height: 36px; margin-left: 25px;">-->
+                <!--                <button class="searchbtn" onclick="SearchUser()"></style><i class="fas fa-search"></i></button>-->
+            </div>
+            <div class="center" >
+                <ul id="UserInfoInsert">
+                    <li>
+                        <!--                        <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+                        <span style="margin-left: 10px;">Personal Information</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="chatright">
+            <div class="top">
+                <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                <span style="margin-left: 20px;" id="getPersonName">Ming Bao</span>
+                <script>
+                    document.getElementById("getPersonName").innerHTML=localStorage.getItem("thisFriendName");
+                </script>
+                <!--                <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;"></i>-->
+            </div>
+            <div class="center" id="usercenter">
+                <div style="overflow: hidden; margin-top: 20px;"  class="personInfo">
+                    <p style="margin-left: 20px; float:left;">
+                    <p>我的昵称:</p>
+                    <p class="msgcard">cyh</p>
+                    </p>
+                </div>
+                <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+                    <p style="margin-left: 20px;">
+                    <p>我的年龄:</p>
+                    <p class="msgcard">18</p>
+                    </p>
+                </div>
+                <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+                    <p style="margin-left: 20px;">
+                    <p>我的位置:</p>
+                    <p class="msgcard">上海</p>
+                    </p>
+                </div>
+                <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+                    <p style="margin-left: 20px;">
+                    <p>我的心情:</p>
+                    <p class="msgcard">开心</p>
+                    </p>
+                </div>
+                <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+                    <p style="margin-left: 20px;">
+                    <p>我的个性签名:</p>
+                    <p class="msgcard">我就是我</p>
+                    </p>
+                </div>
+                <script>
+                    var requestOptions = {
+                        method: 'GET',
+                        redirect: 'follow'
+                    };
+                    var test = localStorage.getItem("thisFriendName");
+                    alert(test);
+                    fetch("http://localhost:8080/user/showInfo?username="+localStorage.getItem("thisFriendName"), requestOptions)
+                        .then(response => response.text())
+                        .then(result => showUser(result))
+                        .catch(error => console.log('error', error));
+                </script>
+                <!--                <script>-->
+                <!--                    for(var i=0;i<5; i++){-->
+                <!--                        var p1=document.createElement("p");-->
+                <!--                        if(i===0){p1.innerHTML="我的昵称:";}-->
+                <!--                        if(i===1){p1.innerHTML="我的年龄:";}-->
+                <!--                        if(i===2){p1.innerHTML="我的位置:";}-->
+                <!--                        if(i===3){p1.innerHTML="我的心情:";}-->
+                <!--                        if(i===4){p1.innerHTML="我的个性签名:";}-->
+                <!--                        var p2=document.createElement("p");-->
+                <!--                        p2.className="msgcard";-->
+                <!--                        var p3=document.createElement("p");-->
+                <!--                        p3.appendChild(p1);-->
+                <!--                        p3.appendChild(p2);-->
+                <!--                        var div1=document.createElement("div");-->
+                <!--                        div1.style.marginTop="20px";-->
+                <!--                        div1.style.overflow="hidden";-->
+                <!--                        div1.className="personInfo";-->
+                <!--                    }-->
+                <!--                </script>-->
+
+                <div>
+                    <button onclick="addFriend()" id="modifyAndRegister" class="btn">添加好友</button>
+                    <script>
+                        function addFriend(){
+                            var logUser=localStorage.getItem("logName");
+                            var newUser=localStorage.getItem("thisFriendName");
+                            var formdata = new FormData();
+                            formdata.append("username1", logUser);
+                            formdata.append("username2", newUser);
+
+                            var requestOptions = {
+                                method: 'POST',
+                                body: formdata,
+                                redirect: 'follow'
+                            };
+
+                            fetch("http://localhost:8080/user/makeFriend", requestOptions)
+                                .then(response => response.text())
+                                .then(result => changeFriend(result))
+                                .catch(error => console.log('error', error));
+                        }
+                        function changeFriend(result){
+                            if(result==="true"){
+                                alert("添加好友成功");
+                                var makeSureButton=document.getElementById("modifyAndRegister");
+                                makeSureButton.innerHTML="删除好友";
+                            }
+                        }
+                    </script>
+                    <style>
+                        .btn{
+                            width: 200px;
+                            height: 36px;
+                            margin-top: 50px;
+                            margin-left: 20px;
+                            font-size: 18px;
+                            /*text-align: center;*/
+                            color: #1f94bf;
+                            border-radius: 20px;
+                            display: block;
+                            background: white;
+                            transition: 0.3s;
+                            float:bottom;
+                        }
+                    </style>
+                </div>
+                <!--                <ul>-->
+                <!--                    <li class="msgleft">-->
+                <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                <!--                        <p class="msgcard">This message on the left!</p>-->
+                <!--                    </li>-->
+                <!--                    <li class="msgright">-->
+                <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                <!--                        <p class="msgcard">This message on the right!</p>-->
+                <!--                    </li>-->
+                <!--                    <li class="msgleft">-->
+                <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+                <!--                    </li>-->
+                <!--                    <li class="msgright">-->
+                <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                <!--                        <p class="msgcard">This message on the right!</p>-->
+                <!--                    </li>-->
+                <!--                    <li class="msgleft">-->
+                <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
+                <!--            </div>-->
+                <!--            <div class="footer">-->
+                <!--                <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..."></textarea>-->
+                <!--                <button class="sendbtn">发送</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
