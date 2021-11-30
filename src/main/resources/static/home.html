@@ -136,9 +136,11 @@
                             for (var i = 0; i < files.length; i++) {
                                 // "file"是后台接口的参数名
                                 console.log(files[i]["name"]);
-                                localStorage.setItem("fileName",files[i]["name"]);
+                                //保存文件名
+                                localStorage.setItem("fileName", files[i]["name"]);
                                 formData.append("file", files[i]);
                             }
+
                             // $.ajax({
                             //     url : "http://localhost:8080/files/upload",
                             //     type : 'POST',
@@ -150,6 +152,9 @@
                             //         console.log("成功!");
                             //     }
                             // });
+
+
+                            //上传文件
                             var requestOptions = {
                                 method: 'POST',
                                 body: formData,
@@ -160,51 +165,64 @@
                                 .then(response => response.text())
                                 .then(result => showFile(result))
                                 .catch(error => console.log('error', error));
+                            /////返回文件下载路径
+
+                            //同步websocket
+                            var requestOptions = {
+                                method: 'GET',
+                                redirect: 'follow'
+                            };
+
+                            fetch("http://localhost:8080/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
+                                .then(response => response.text())
+                                .then(result => setMessageInnerHTML(result,2))
+                                .catch(error => console.log('error', error));
+
                             alert("上传成功")
                         })
                     })
 
                     function showFile(result){
-                        //添加消息内容
-                        var messageP = document.createElement("p");
-                        messageP.className="msgcard";
-                        var node = document.createTextNode("上传文件:  "+localStorage.getItem("fileName"));
-                        messageP.appendChild(node);
-                        //添加文件图标
-                        var fileImg = document.createElement("img")
-                        fileImg.src="../img/file.png"
-                        fileImg.className="messageImg"
-                        fileImg.width=30;
-                        fileImg.height=30;
-                        //
+                        // //添加消息内容
+                        // var messageP = document.createElement("p");
+                        // messageP.className="msgcard";
+                        // var node = document.createTextNode("上传文件:  "+localStorage.getItem("fileName"));
+                        // messageP.appendChild(node);
+                        // //添加文件图标
+                        // var fileImg = document.createElement("img");
+                        // fileImg.src="./img/file.png"
+                        // fileImg.className="messageImg"
+                        // fileImg.width=30;
+                        // fileImg.height=30;
+                        // //
                         localStorage.setItem("fileURL",result);
+                        // //
+                        // fileImg.onclick=Function("downloadFile()");
+                        // //添加img
+                        // var messageImg = document.createElement("img");
+                        // messageImg.src="http://placehold.it/40x40";
+                        // messageImg.className = "messageImg";
+                        // //添加li
+                        // var messageP2 = document.createElement("p");
+                        // messageP2.appendChild(fileImg);
+                        // messageP2.appendChild(messageP);
+                        // messageP2.appendChild(messageImg);
+                        // // messageP2.className="messageLi"
+                        // // //添加ul
+                        // var messageDiv = document.createElement("div");
+                        // messageDiv.appendChild(messageP2);
+                        // // messageDiv.className="ulright";
+                        // // var element = document.getElementById("webSocketInputPlace");
+                        // var element = document.getElementById("messageBox");
+                        // element.appendChild(messageDiv);
                         //
-                        fileImg.onclick=Function("downloadFile()");
-                        //添加img
-                        var messageImg = document.createElement("img");
-                        messageImg.src="http://placehold.it/40x40";
-                        messageImg.className = "messageImg";
-                        //添加li
-                        var messageP2 = document.createElement("p");
-                        messageP2.appendChild(fileImg);
-                        messageP2.appendChild(messageP);
-                        messageP2.appendChild(messageImg);
-                        // messageP2.className="messageLi"
-                        // //添加ul
-                        var messageDiv = document.createElement("div");
-                        messageDiv.appendChild(messageP2);
-                        // messageDiv.className="ulright";
-                        // var element = document.getElementById("webSocketInputPlace");
-                        var element = document.getElementById("messageBox");
-                        element.appendChild(messageDiv);
-
-                        messageDiv.style.overflow="hidden";
-                        messageP2.style.float="right";
+                        // messageDiv.style.overflow="hidden";
+                        // messageP2.style.float="right";
                     }
 
-                    function downloadFile(){
-                        window.location.href=localStorage.getItem("fileURL");
-                    }
+                    // function downloadFile(){
+                    //     window.location.href=localStorage.getItem("fileURL");
+                    // }
 
                 </script>
 

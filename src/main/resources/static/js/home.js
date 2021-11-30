@@ -170,6 +170,8 @@ websocket.onopen = function() {
 //接收到消息的回调方法
 websocket.onmessage = function(event) {
     setMessageInnerHTML(event.data,1);
+    // alert(typeof event)
+
     // alert("接收到消息的回调方法")
     // alert("这是后台推送的消息："+event.data);
     // websocket.close();
@@ -213,11 +215,21 @@ function addMessageStyle(){
 }
 
 function addMessageDom(message,num){
+    var fileCheck = message.slice(0,2);
     //添加消息内容
     var messageP = document.createElement("p");
     messageP.className="msgcard";
     var node = document.createTextNode(message);
     messageP.appendChild(node);
+    //添加文件图标
+    if(fileCheck==="文件"){
+        var fileImg = document.createElement("img");
+        fileImg.src="./img/file.png"
+        fileImg.className="messageImg"
+        fileImg.width=30;
+        fileImg.height=30;
+        fileImg.onclick=Function("downloadFile()");
+    }
     //添加img
     var messageImg = document.createElement("img");
     messageImg.src="http://placehold.it/40x40";
@@ -227,8 +239,14 @@ function addMessageDom(message,num){
     if(num===1){
         messageP2.appendChild(messageImg);
         messageP2.appendChild(messageP);
+        if(fileCheck==="文件"){
+            messageP2.appendChild(fileImg);
+        }
     }
     else{
+        if(fileCheck==="文件"){
+            messageP2.appendChild(fileImg);
+        }
         messageP2.appendChild(messageP);
         messageP2.appendChild(messageImg);
     }
@@ -260,7 +278,12 @@ function send(){
 
     fetch("http://localhost:8080/websocket/sendTo?msg="+message+"&userId="+targetedUsername, requestOptions)
         .then(response => response.text())
-        .then(result => setMessageInnerHTML(result))
+        .then(result => setMessageInnerHTML(result,2))
         .catch(error => console.log('error', error));
     //websocket.send(message);
+}
+
+//下载文件
+function downloadFile(){
+    window.location.href=localStorage.getItem("fileURL");
 }
