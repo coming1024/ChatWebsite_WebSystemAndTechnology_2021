@@ -115,7 +115,99 @@
             </div>
             <div class="footer">
                 <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..." id="testWebsocket"></textarea>
+                <form target="id_iframe" enctype="multipart/form-data" method="post" style="float:left;margin-left: 10px;">
+                    <input type='file'>
+                    <button class="sendbtn" id="upload-btn">上传文件</button>
+                </form>
+                <iframe id="id_iframe" name="id_iframe" style="display:none;"></iframe>
                 <button class="sendbtn" onclick="send()">发送</button>
+                <script>
+                    $(function () {
+                        var files = [];
+                        // 操作dom获取input的数据，多个input的话，用id获取
+                        $(document).ready(function(){
+                            $("input").change(function(){
+                                files = this.files;
+                            });
+                        });
+                        // 绑定点击事件，ajax请求
+                        $("#upload-btn").click(function () {
+                            var formData = new FormData();
+                            for (var i = 0; i < files.length; i++) {
+                                // "file"是后台接口的参数名
+                                console.log(files[i]["name"]);
+                                localStorage.setItem("fileName",files[i]["name"]);
+                                formData.append("file", files[i]);
+                            }
+                            // $.ajax({
+                            //     url : "http://localhost:8080/files/upload",
+                            //     type : 'POST',
+                            //     data : formData,
+                            //     contentType : false,
+                            //     processData : false,
+                            //     cache : false,
+                            //     success : function(data) {
+                            //         console.log("成功!");
+                            //     }
+                            // });
+                            var requestOptions = {
+                                method: 'POST',
+                                body: formData,
+                                redirect: 'follow'
+                            };
+
+                            fetch("http://localhost:8080/files/upload", requestOptions)
+                                .then(response => response.text())
+                                .then(result => showFile(result))
+                                .catch(error => console.log('error', error));
+                            alert("上传成功")
+                        })
+                    })
+
+                    function showFile(result){
+                        //添加消息内容
+                        var messageP = document.createElement("p");
+                        messageP.className="msgcard";
+                        var node = document.createTextNode("上传文件:  "+localStorage.getItem("fileName"));
+                        messageP.appendChild(node);
+                        //添加文件图标
+                        var fileImg = document.createElement("img")
+                        fileImg.src="../img/file.png"
+                        fileImg.className="messageImg"
+                        fileImg.width=30;
+                        fileImg.height=30;
+                        //
+                        localStorage.setItem("fileURL",result);
+                        //
+                        fileImg.onclick=Function("downloadFile()");
+                        //添加img
+                        var messageImg = document.createElement("img");
+                        messageImg.src="http://placehold.it/40x40";
+                        messageImg.className = "messageImg";
+                        //添加li
+                        var messageP2 = document.createElement("p");
+                        messageP2.appendChild(fileImg);
+                        messageP2.appendChild(messageP);
+                        messageP2.appendChild(messageImg);
+                        // messageP2.className="messageLi"
+                        // //添加ul
+                        var messageDiv = document.createElement("div");
+                        messageDiv.appendChild(messageP2);
+                        // messageDiv.className="ulright";
+                        // var element = document.getElementById("webSocketInputPlace");
+                        var element = document.getElementById("messageBox");
+                        element.appendChild(messageDiv);
+
+                        messageDiv.style.overflow="hidden";
+                        messageP2.style.float="right";
+                    }
+
+                    function downloadFile(){
+                        window.location.href=localStorage.getItem("fileURL");
+                    }
+
+                </script>
+
 <!--                <p>Click here to <a id="signup">注册</a></p>-->
             </div>
         </div>

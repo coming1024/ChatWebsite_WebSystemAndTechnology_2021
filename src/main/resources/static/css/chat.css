@@ -78,7 +78,7 @@ input {
     padding-left: 10px;
 }
 .chatleft .center li{
-    margin: 10px;
+    margin: 20px;
 }
 .chatright {
     background-color: #ffffff;
@@ -97,6 +97,12 @@ input {
     overflow-y: scroll;
     /*position: relative;*/
 }
+.chatright .chatcenter {
+    background-color: #edf5f8;
+    height: 90%;
+    overflow-y: scroll;
+    /*position: relative;*/
+}
 .chatright #usercenter {
     background-color: #edf5f8;
     height: 90%;
@@ -111,7 +117,13 @@ input {
 .chatright .center .ulleft li{
     float: left;
 }
+.chatright .chatcenter .ulleft li{
+    float: left;
+}
 .chatright .center .ulright {
+    float: right;
+}
+.chatright .chatcenter .ulright {
     float: right;
 }
 .chatright .center ul {
@@ -126,6 +138,9 @@ input {
     width: 100%;
 }
 .chatright .center p{
+    display: inline-block;
+}
+.chatright .chatcenter p{
     display: inline-block;
 }
 .chatright .personalcenter ul {

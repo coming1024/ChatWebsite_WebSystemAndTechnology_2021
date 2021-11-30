@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/personalcenter.js"></script>
+</head>
+<body>
+<div id="usercenter">
+    <div style="overflow: hidden; margin-top: 20px;"  class="personInfo">
+        <p style="margin-left: 20px; float:left;">
+        <p>我的昵称:</p>
+        <p class="msgcard">cyh</p>
+        </p>
+    </div>
+    <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+        <p style="margin-left: 20px;">
+        <p>我的年龄:</p>
+        <p class="msgcard">18</p>
+        </p>
+    </div>
+    <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+        <p style="margin-left: 20px;">
+        <p>我的位置:</p>
+        <p class="msgcard">上海</p>
+        </p>
+    </div>
+    <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+        <p style="margin-left: 20px;">
+        <p>我的心情:</p>
+        <p class="msgcard">开心</p>
+        </p>
+    </div>
+    <div style="overflow: hidden; margin-top: 20px;" class="personInfo">
+        <p style="margin-left: 20px;">
+        <p>我的个性签名:</p>
+        <p class="msgcard">我就是我，我就是天</p>
+        </p>
+    </div>
+    <script>
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+        fetch("http://localhost:8080/user/showInfo?username="+localStorage.getItem("logName"), requestOptions)
+            .then(response => response.text())
+            .then(result => showUser(result))
+            .catch(error => console.log('error', error));
+    </script>
+    <!--                <script>-->
+    <!--                    for(var i=0;i<5; i++){-->
+    <!--                        var p1=document.createElement("p");-->
+    <!--                        if(i===0){p1.innerHTML="我的昵称:";}-->
+    <!--                        if(i===1){p1.innerHTML="我的年龄:";}-->
+    <!--                        if(i===2){p1.innerHTML="我的位置:";}-->
+    <!--                        if(i===3){p1.innerHTML="我的心情:";}-->
+    <!--                        if(i===4){p1.innerHTML="我的个性签名:";}-->
+    <!--                        var p2=document.createElement("p");-->
+    <!--                        p2.className="msgcard";-->
+    <!--                        var p3=document.createElement("p");-->
+    <!--                        p3.appendChild(p1);-->
+    <!--                        p3.appendChild(p2);-->
+    <!--                        var div1=document.createElement("div");-->
+    <!--                        div1.style.marginTop="20px";-->
+    <!--                        div1.style.overflow="hidden";-->
+    <!--                        div1.className="personInfo";-->
+    <!--                    }-->
+    <!--                </script>-->
+
+    <div>
+        <button onclick="modifyPersonalInfor()" id="modifyAndRegister" class="btn">修改个人信息</button>
+        <style>
+            .btn{
+                width: 200px;
+                height: 36px;
+                margin-top: 50px;
+                margin-left: 20px;
+                font-size: 18px;
+                /*text-align: center;*/
+                color: #1f94bf;
+                border-radius: 20px;
+                display: block;
+                background: white;
+                transition: 0.3s;
+                float:bottom;
+            }
+        </style>
+    </div>
+    <!--                <ul>-->
+    <!--                    <li class="msgleft">-->
+    <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+    <!--                        <p class="msgcard">This message on the left!</p>-->
+    <!--                    </li>-->
+    <!--                    <li class="msgright">-->
+    <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+    <!--                        <p class="msgcard">This message on the right!</p>-->
+    <!--                    </li>-->
+    <!--                    <li class="msgleft">-->
+    <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+    <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+    <!--                    </li>-->
+    <!--                    <li class="msgright">-->
+    <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+    <!--                        <p class="msgcard">This message on the right!</p>-->
+    <!--                    </li>-->
+    <!--                    <li class="msgleft">-->
+    <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+    <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--            <div class="footer">-->
+    <!--                <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..."></textarea>-->
+    <!--                <button class="sendbtn">发送</button>-->
+</div>
+<div id="friendcenter">
+    <button class="btn" onclick="showFriend()">查看好友</button>
+    <style>
+        .btn{
+            width: 200px;
+            height: 36px;
+            margin-top: 50px;
+            margin-left: 20px;
+            font-size: 18px;
+            /*text-align: center;*/
+            color: #1f94bf;
+            border-radius: 20px;
+            display: block;
+            background: white;
+            transition: 0.3s;
+            float:bottom;
+        }
+    </style>
+<!--    <div onclick="showFriend()">你好</div>-->
+<!--    <script>-->
+<!--        // function nihao(){-->
+<!--        //     alert("nihao")-->
+<!--        // }-->
+<!--        alert("this is friendcenter")-->
+<!--        createFriendStyle();-->
+<!--        addFriendDom();-->
+<!--        addFriendStyle();-->
+
+<!--        function createFriendStyle(){-->
+<!--            return ".messageImg{border-radius: 20px; vertical-align: top;}";-->
+<!--        }-->
+
+<!--        function addFriendStyle(){-->
+<!--            var style = document.createElement("style");-->
+<!--            style.type = "text/css";-->
+<!--            style.innerHTML = createMessageStyle();-->
+<!--            window.document.head.appendChild(style);-->
+<!--        }-->
+
+<!--        function addFriendDom(){-->
+<!--            //添加消息内容-->
+<!--            var messageP = document.createElement("p");-->
+<!--            messageP.className="msgcard";-->
+<!--            var node = document.createTextNode("mingbao");-->
+<!--            messageP.appendChild(node);-->
+<!--            //添加img-->
+<!--            var messageImg = document.createElement("img");-->
+<!--            messageImg.src="http://placehold.it/40x40";-->
+<!--            messageImg.className = "messageImg";-->
+<!--            //添加li-->
+<!--            var messageP2 = document.createElement("p");-->
+<!--            messageP2.appendChild(messageImg);-->
+<!--            messageP2.appendChild(messageP);-->
+<!--            // messageP2.className="messageLi"-->
+<!--            // //添加ul-->
+<!--            var messageDiv = document.createElement("div");-->
+<!--            messageDiv.appendChild(messageP2);-->
+<!--            // messageDiv.className="ulright";-->
+<!--            // var element = document.getElementById("webSocketInputPlace");-->
+<!--            var element = document.getElementById("friendcenter");-->
+<!--            element.appendChild(messageDiv);-->
+
+<!--            messageDiv.style.overflow="hidden";-->
+<!--            messageP2.style.float="left";-->
+<!--        }-->
+
+<!--    </script>-->
+</div>
+</body>
+</html>

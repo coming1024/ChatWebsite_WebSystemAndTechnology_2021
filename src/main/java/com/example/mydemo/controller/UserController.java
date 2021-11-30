@@ -1,4 +1,5 @@
 package com.example.mydemo.controller;
+import com.example.mydemo.pojo.Friend;
 import com.example.mydemo.pojo.MyUsers;
 import com.example.mydemo.pojo.User;
 import com.example.mydemo.service.impl.UserServiceImpl;
@@ -81,5 +82,17 @@ public class UserController {
     @PostMapping(value = "/makeFriend")
     public boolean makeFriend(@Param("username1")String username1,@Param("username2")String username2){
         return userServer.makeFriend(username1,username2);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/deleteFriend")
+    public boolean deleteFriend(@Param("username1")String username1,@Param("username2")String username2){
+        return userServer.deleteFriend(username1,username2);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/getFriendList")
+    public List<Friend> getFriendList(@Param("username")String username){
+        return userServer.getFriendList(username);
     }
 }

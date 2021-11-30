@@ -143,6 +143,33 @@
                                 alert("添加好友成功");
                                 var makeSureButton=document.getElementById("modifyAndRegister");
                                 makeSureButton.innerHTML="删除好友";
+                                makeSureButton.onclick=Function("deleteFriend()");
+                            }
+                        }
+                        function deleteFriend(){
+                            var logUser=localStorage.getItem("logName");
+                            var newUser=localStorage.getItem("thisFriendName");
+                            var formdata = new FormData();
+                            formdata.append("username1", logUser);
+                            formdata.append("username2", newUser);
+
+                            var requestOptions = {
+                                method: 'POST',
+                                body: formdata,
+                                redirect: 'follow'
+                            };
+
+                            fetch("http://localhost:8080/user/deleteFriend", requestOptions)
+                                .then(response => response.text())
+                                .then(result => secondChange(result))
+                                .catch(error => console.log('error', error));
+                        }
+                        function secondChange(result){
+                            if (result==="true"){
+                                alert("删除好友成功!")
+                                var makeSureButton=document.getElementById("modifyAndRegister");
+                                makeSureButton.innerHTML="添加好友";
+                                makeSureButton.onclick=Function("addFriend()");
                             }
                         }
                     </script>

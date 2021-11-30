@@ -1,5 +1,6 @@
 package com.example.mydemo.mapper;
 
+import com.example.mydemo.pojo.Friend;
 import com.example.mydemo.pojo.MyUsers;
 import com.example.mydemo.pojo.User;
 import org.apache.ibatis.annotations.*;
@@ -33,6 +34,12 @@ public interface UserMapper {
 
     @Insert("insert into friend(username1,username2) values (#{username1},#{username2})")
     boolean addFriend(@Param("username1")String username1,@Param("username2")String username2);
+
+    @Delete("delete from friend where (username1=#{username1} and username2=#{username2}) or (username2=#{username1} and username1=#{username2})")
+    boolean deleteFriend(@Param("username1")String username1,@Param("username2")String username2);
+
+    @Select("select * from friend where username2=#{username} or username1=#{username}")
+    List<Friend> getFriend(@Param("username")String username);
 
 }
 

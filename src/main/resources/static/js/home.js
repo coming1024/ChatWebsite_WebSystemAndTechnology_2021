@@ -224,7 +224,7 @@ function addMessageDom(message,num){
     messageImg.className = "messageImg";
     //添加li
     var messageP2 = document.createElement("p");
-    if(num==1){
+    if(num===1){
         messageP2.appendChild(messageImg);
         messageP2.appendChild(messageP);
     }
@@ -242,13 +242,12 @@ function addMessageDom(message,num){
     element.appendChild(messageDiv);
 
     messageDiv.style.overflow="hidden";
-    if(num==1){
+    if(num===1){
         messageP2.style.float="left";
     }
     else{
         messageP2.style.float="right";
     }
-
 }
 
 //发送消息
