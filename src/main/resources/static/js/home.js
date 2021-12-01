@@ -230,6 +230,7 @@ function addMessageDom(message,num){
     else{
         //不需要删除消息则显示消息
 
+
         //添加消息内容
         var messageP = document.createElement("p");
         messageP.className="msgcard";
@@ -273,7 +274,7 @@ function addMessageDom(message,num){
         //
         //添加点击事件，进行转发或删除操作
         messageDiv.onclick=function (event){
-            messageDiv.id="msgDelete"
+            messageDiv.id="msgDelete";
             operateMessage(event,message);
         }
         // messageDiv.className="ulright";
@@ -289,8 +290,6 @@ function addMessageDom(message,num){
             messageP2.style.float="right";
         }
     }
-
-
 }
 
 //发送消息
@@ -318,6 +317,23 @@ function operateMessage(event,message){
     var operation = prompt("对此消息进行转发或撤回？");
     if (operation==="转发"){
         alert(message)
+        //打开div弹出层
+        var popBox = document.getElementById("popBox");
+        var popLayer = document.getElementById("popLayer");
+        popBox.style.display = "block";
+        popLayer.style.display = "block";
+        //获取好友列表
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/user/getFriendList?username="+localStorage.getItem("logName"), requestOptions)
+            .then(response => response.text())
+            .then(result => FriendListTransmission(result,message))//显示在弹窗上
+            .catch(error => console.log('error', error));
+        //获取完好友列表
+
     }
     if (operation==="撤回"){
         //删除发件人页面的消息
@@ -336,5 +352,65 @@ function operateMessage(event,message){
             .catch(error => console.log('error', error));
 
     }
+}
+
+//关闭div弹出层
+function closeBox() {
+    var popBox = document.getElementById("popBox");
+    var popLayer = document.getElementById("popLayer");
+    popBox.style.display = "none";
+    popLayer.style.display = "none";
+}
+
+//在弹窗层显示待转发好友
+function FriendListTransmission(result,message){
+    //处理json
+    var list = JSON.parse(result);
+    console.log(list)
+    var friendName=new Array(3);
+    // var FriendDiv=new Array(3);
+    for (var i=0;i<list.length;i++) {
+        //判断朋友名
+        if (list[i]["username1"] !== localStorage.getItem("logName")) {
+            friendName[i] = list[i]["username1"];
+        } else { friendName[i] = list[i]["username2"]; }
+        //显示到弹窗
+        // alert(friendName[i])
+        var FriendDiv = document.createElement("div");
+        FriendDiv.innerHTML=friendName[i];
+        FriendDiv.style.marginLeft="10px";
+        FriendDiv.style.marginTop="15px";
+        FriendDiv.className="FriendDiv";
+        FriendDiv.id = i;
+        //有误
+        // FriendDiv.onclick=function (event){ showTransmission(event,FriendDiv.id,message); }
+        var element = document.getElementById("TransmissionWindow");
+        element.appendChild(FriendDiv);
+    }
+    //会存在bug//但是能先用着
+    $("#0").on("click",function(){showTransmission(friendName[0],message);})
+    $("#1").on("click",function(){showTransmission(friendName[1],message);})
+    $("#2").on("click",function(){showTransmission(friendName[2],message);})
+    $("#3").on("click",function(){showTransmission(friendName[3],message);})
+    $("#4").on("click",function(){showTransmission(friendName[4],message);})
+    $("#5").on("click",function(){showTransmission(friendName[5],message);})
+    $("#6").on("click",function(){showTransmission(friendName[6],message);})
+
+}
+
+//与后端交互实现转发功能
+function showTransmission(friendName,message){
+    // var friendName = document.getElementById(friendDivID).innerHTML;
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/websocket/sendTo?msg="+message+"&userId="+friendName, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    alert(friendName+message);//
 
 }
