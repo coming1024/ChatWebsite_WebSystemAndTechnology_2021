@@ -216,56 +216,81 @@ function addMessageStyle(){
 
 function addMessageDom(message,num){
     var fileCheck = message.slice(0,2);
-    //添加消息内容
-    var messageP = document.createElement("p");
-    messageP.className="msgcard";
-    var node = document.createTextNode(message);
-    messageP.appendChild(node);
-    //添加文件图标
-    if(fileCheck==="文件"){
-        var fileImg = document.createElement("img");
-        fileImg.src="./img/file.png"
-        fileImg.className="messageImg"
-        fileImg.width=30;
-        fileImg.height=30;
-        fileImg.onclick=Function("downloadFile()");
-    }
-    //添加img
-    var messageImg = document.createElement("img");
-    messageImg.src="http://placehold.it/40x40";
-    messageImg.className = "messageImg";
-    //添加li
-    var messageP2 = document.createElement("p");
-    if(num===1){
-        messageP2.appendChild(messageImg);
-        messageP2.appendChild(messageP);
-        if(fileCheck==="文件"){
-            messageP2.appendChild(fileImg);
+    ///
+    var deleteCheck = message.split(":");
+    //删除消息
+    if(deleteCheck[0]==="删除"){
+        var allMessage=document.getElementsByClassName("msgcard");
+        for (var i=0;i<allMessage.length;i++){
+            if(allMessage[i].innerHTML===deleteCheck[1]){
+                allMessage[i].parentNode.parentNode.parentNode.removeChild(allMessage[i].parentNode.parentNode)
+            }
         }
     }
     else{
-        if(fileCheck==="文件"){
-            messageP2.appendChild(fileImg);
-        }
-        messageP2.appendChild(messageP);
-        messageP2.appendChild(messageImg);
-    }
-    // messageP2.className="messageLi"
-    // //添加ul
-    var messageDiv = document.createElement("div");
-    messageDiv.appendChild(messageP2);
-    // messageDiv.className="ulright";
-    // var element = document.getElementById("webSocketInputPlace");
-    var element = document.getElementById("messageBox");
-    element.appendChild(messageDiv);
+        //不需要删除消息则显示消息
 
-    messageDiv.style.overflow="hidden";
-    if(num===1){
-        messageP2.style.float="left";
+        //添加消息内容
+        var messageP = document.createElement("p");
+        messageP.className="msgcard";
+        var node = document.createTextNode(message);
+        messageP.appendChild(node);
+
+        //添加文件图标
+        if(fileCheck==="文件"){
+            var fileImg = document.createElement("img");
+            fileImg.src="./img/file.png"
+            fileImg.className="messageImg"
+            fileImg.width=30;
+            fileImg.height=30;
+            fileImg.onclick=Function("downloadFile()");
+        }
+        //添加img
+        var messageImg = document.createElement("img");
+        messageImg.src="http://placehold.it/40x40";
+        messageImg.className = "messageImg";
+        //添加li
+        var messageP2 = document.createElement("p");
+        if(num===1){
+            messageP2.appendChild(messageImg);
+            messageP2.appendChild(messageP);
+            if(fileCheck==="文件"){
+                messageP2.appendChild(fileImg);
+            }
+        }
+        else{
+            if(fileCheck==="文件"){
+                messageP2.appendChild(fileImg);
+            }
+            messageP2.appendChild(messageP);
+            messageP2.appendChild(messageImg);
+        }
+        // messageP2.className="messageLi"
+        // //添加ul
+        var messageDiv = document.createElement("div");
+        messageDiv.appendChild(messageP2);
+        messageDiv.className="messageDiv";
+        //
+        //添加点击事件，进行转发或删除操作
+        messageDiv.onclick=function (event){
+            messageDiv.id="msgDelete"
+            operateMessage(event,message);
+        }
+        // messageDiv.className="ulright";
+        // var element = document.getElementById("webSocketInputPlace");
+        var element = document.getElementById("messageBox");
+        element.appendChild(messageDiv);
+
+        messageDiv.style.overflow="hidden";
+        if(num===1){
+            messageP2.style.float="left";
+        }
+        else{
+            messageP2.style.float="right";
+        }
     }
-    else{
-        messageP2.style.float="right";
-    }
+
+
 }
 
 //发送消息
@@ -286,4 +311,30 @@ function send(){
 //下载文件
 function downloadFile(){
     window.location.href=localStorage.getItem("fileURL");
+}
+
+//对于操作者界面的转发或撤回消息
+function operateMessage(event,message){
+    var operation = prompt("对此消息进行转发或撤回？");
+    if (operation==="转发"){
+        alert(message)
+    }
+    if (operation==="撤回"){
+        //删除发件人页面的消息
+        var element=document.getElementById("msgDelete");
+        element.parentNode.removeChild(element);
+        //删除接受人页面的消息
+        //通过websocket广播删除命令给接收人页面将需要删除的消息内容传递过去再去进行内容匹配
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/websocket/sendTo?msg="+"删除:"+message+"&userId="+targetedUsername, requestOptions)
+            .then(response => response.text())
+            .then(result => setMessageInnerHTML(result,2))
+            .catch(error => console.log('error', error));
+
+    }
+
 }
