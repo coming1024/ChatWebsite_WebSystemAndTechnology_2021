@@ -2,8 +2,8 @@ package com.example.mydemo.service.impl;
 
 import com.example.mydemo.mapper.UserMapper;
 
-import com.example.mydemo.pojo.BasicUser;
 import com.example.mydemo.pojo.Friend;
+import com.example.mydemo.pojo.Message;
 import com.example.mydemo.pojo.User;
 import com.example.mydemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +73,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Friend> getFriendList(String username){ return userMapper.getFriend(username);}
+
+    @Override
+    public List<Message> getAllMessage(String fromUsername, String toUsername){ return userMapper.getMessage(fromUsername,toUsername);}
+
+    @Override
+    public boolean pushMyMessage(String messageContent,String fromUsername,String toUsername){ return userMapper.pushMessage(messageContent,fromUsername,toUsername);}
 }
 

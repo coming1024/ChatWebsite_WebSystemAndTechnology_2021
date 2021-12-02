@@ -134,10 +134,38 @@ function gotoDiscussionWindow(){//动态加载聊天栏上方的username
         parent.removeChild(childs[i]);
     }
 
+    //清除对话框内容后从数据库加载历史聊天记录
+    //获取历史聊天信息
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/user/getAllMessage?fromUsername=cyh&toUsername=mingbao", requestOptions)
+        .then(response => response.text())
+        .then(result => dealHistoryMessage(result))
+        .catch(error => console.log('error', error));
+    //结束获取聊天信息
+
    console.log(document.getElementById("messageBox").innerHTML)
    // $('#message').html("");
 
 }
+
+function dealHistoryMessage(result){
+    var HistoryMsgList = JSON.parse(result);
+    console.log(HistoryMsgList);
+    for (var i=0;i<HistoryMsgList.length;i++){
+        // if(HistoryMsgList[i]["fromUsername"]===localStorage.getItem("logName")){
+            setMessageInnerHTML(HistoryMsgList[i]["messageContent"],2);
+        // }
+        // else{
+        //     setMessageInnerHTML(HistoryMsgList[i]["messageContent"],1);
+        // }
+
+    }
+}
+
 
 ///////////////***WebSocket***/////////////////
 
@@ -294,6 +322,10 @@ function addMessageDom(message,num){
 
 //发送消息
 function send(){
+
+
+
+    //通过websocket广播到对应的人
     var message = document.getElementById('testWebsocket').value;
     var requestOptions = {
         method: 'GET',
@@ -305,6 +337,24 @@ function send(){
         .then(result => setMessageInnerHTML(result,2))
         .catch(error => console.log('error', error));
     //websocket.send(message);
+    
+    //将发送消息存入数据库以便拉取历史信息
+    var formdata = new FormData();
+    formdata.append("fromUsername", localStorage.getItem("logName"));
+    formdata.append("toUsername", targetedUsername);
+    formdata.append("messageContent", message);
+
+    var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/user/pushMessage", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
 }
 
 //下载文件
@@ -402,6 +452,25 @@ function FriendListTransmission(result,message){
 function showTransmission(friendName,message){
     // var friendName = document.getElementById(friendDivID).innerHTML;
 
+    //消息存入数据库
+    var formdata = new FormData();
+    formdata.append("fromUsername", localStorage.getItem("logName"));
+    formdata.append("toUsername", friendName);
+    formdata.append("messageContent", message);
+
+    var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/user/pushMessage", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+
+    //通过websocket广播
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
@@ -412,5 +481,7 @@ function showTransmission(friendName,message){
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     alert(friendName+message);//
+
+
 
 }

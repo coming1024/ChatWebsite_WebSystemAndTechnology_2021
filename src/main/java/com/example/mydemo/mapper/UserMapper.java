@@ -1,11 +1,9 @@
 package com.example.mydemo.mapper;
 
 import com.example.mydemo.pojo.Friend;
-import com.example.mydemo.pojo.MyUsers;
+import com.example.mydemo.pojo.Message;
 import com.example.mydemo.pojo.User;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Component;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
@@ -40,6 +38,12 @@ public interface UserMapper {
 
     @Select("select * from friend where username2=#{username} or username1=#{username}")
     List<Friend> getFriend(@Param("username")String username);
+
+    @Select("select * from communication where (fromUsername=#{fromUsername} and toUsername=#{toUsername}) or (fromUsername=#{toUsername} and toUsername=#{fromUsername})")
+    List<Message> getMessage(@Param("fromUsername")String fromUsername, @Param("toUsername")String toUsername);
+
+    @Insert("insert into communication(messageContent,fromUsername,toUsername) values (#{messageContent},#{fromUsername},#{toUsername})")
+    boolean pushMessage(@Param("messageContent")String messageContent,@Param("fromUsername")String fromUsername,@Param("toUsername")String toUsername);
 
 }
 

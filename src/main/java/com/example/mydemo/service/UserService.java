@@ -1,6 +1,6 @@
 package com.example.mydemo.service;
-import com.example.mydemo.pojo.BasicUser;
 import com.example.mydemo.pojo.Friend;
+import com.example.mydemo.pojo.Message;
 import com.example.mydemo.pojo.User;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +21,8 @@ public interface UserService {
     boolean makeFriend(String username1,String username2);
     boolean deleteFriend(String username1,String username2);
     List<Friend> getFriendList(String username);
+    List<Message> getAllMessage(String fromUsername, String toUsername);
+    boolean pushMyMessage(String messageContent,String fromUsername,String toUsername);
 }
 
 

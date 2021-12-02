@@ -1,6 +1,6 @@
 package com.example.mydemo.controller;
 import com.example.mydemo.pojo.Friend;
-import com.example.mydemo.pojo.MyUsers;
+import com.example.mydemo.pojo.Message;
 import com.example.mydemo.pojo.User;
 import com.example.mydemo.service.impl.UserServiceImpl;
 
@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -95,4 +94,17 @@ public class UserController {
     public List<Friend> getFriendList(@Param("username")String username){
         return userServer.getFriendList(username);
     }
+
+    @CrossOrigin
+    @GetMapping(value="/getAllMessage")
+    public List<Message> getAllMessage(@Param("fromUsername")String fromUsername, @Param("toUsername")String toUsername){
+        return userServer.getAllMessage(fromUsername, toUsername);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/pushMessage")
+    public boolean pushMyMessage(@Param("messageContent")String messageContent,@Param("fromUsername")String fromUsername,@Param("toUsername")String toUsername){
+        return userServer.pushMyMessage(messageContent,fromUsername, toUsername);
+    }
+
 }
