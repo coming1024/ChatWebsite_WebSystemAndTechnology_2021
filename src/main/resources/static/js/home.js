@@ -489,7 +489,7 @@ function showTransmission(friendName,message){
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     alert(friendName+message);//
-139.224.251.185:5050
+
 }
 
 
