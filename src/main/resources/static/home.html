@@ -256,22 +256,35 @@
                                 .catch(error => console.log('error', error));
                             /////返回文件下载路径
 
-                            //同步websocket
-                            var requestOptions = {
-                                method: 'GET',
-                                redirect: 'follow'
-                            };
+                            // //同步websocket
+                            // var requestOptions = {
+                            //     method: 'GET',
+                            //     redirect: 'follow'
+                            // };
 
-                            fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
-                                .then(response => response.text())
-                                .then(result => setMessageInnerHTML(result,2))
-                                .catch(error => console.log('error', error));
-
-                            alert("上传成功")
+                            // fetch("http://localhost:8080/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
+                            //     .then(response => response.text())
+                            //     .then(result => setMessageInnerHTML(result,2))
+                            //     .catch(error => console.log('error', error));
+                            //
+                            // alert("上传成功")
                         })
                     })
 
                     function showFile(result){
+
+                        //同步websocket
+                        var requestOptions = {
+                            method: 'GET',
+                            redirect: 'follow'
+                        };
+
+                        fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+":下载=  "+result+"&userId="+targetedUsername, requestOptions)
+                            .then(response => response.text())
+                            .then(result => setMessageInnerHTML(result,2))
+                            .catch(error => console.log('error', error));
+
+                        alert("上传成功")
                         // //添加消息内容
                         // var messageP = document.createElement("p");
                         // messageP.className="msgcard";
@@ -284,7 +297,7 @@
                         // fileImg.width=30;
                         // fileImg.height=30;
                         // //
-                        localStorage.setItem("fileURL",result);
+                        //localStorage.setItem("fileURL",result);
                         // //
                         // fileImg.onclick=Function("downloadFile()");
                         // //添加img

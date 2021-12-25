@@ -1,0 +1,11 @@
+POST  position/getPosition
+
+{
+  "jing": "string",
+  "wei": "string"
+}
+
+parameter
+
+ts          时间戳           TIMESTAMP
+id          车辆Id           INTERGER

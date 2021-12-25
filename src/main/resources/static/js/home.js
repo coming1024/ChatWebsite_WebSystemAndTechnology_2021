@@ -246,6 +246,9 @@ function addMessageDom(message,num){
     var fileCheck = message.slice(0,2);
     ///
     var deleteCheck = message.split(":");
+    //
+    var fileName = message.split("=");
+
     //删除消息
     if(deleteCheck[0]==="删除"){
         var allMessage=document.getElementsByClassName("msgcard");
@@ -260,6 +263,9 @@ function addMessageDom(message,num){
 
 
         //添加消息内容
+        if(fileCheck==="文件"){
+            message=fileName[0];
+        }
         var messageP = document.createElement("p");
         messageP.className="msgcard";
         var node = document.createTextNode(message);
@@ -267,6 +273,7 @@ function addMessageDom(message,num){
 
         //添加文件图标
         if(fileCheck==="文件"){
+            localStorage.setItem("fileURL",fileName[1]);
             var fileImg = document.createElement("img");
             fileImg.src="./img/file.png"
             fileImg.className="messageImg"
@@ -301,7 +308,7 @@ function addMessageDom(message,num){
         messageDiv.className="messageDiv";
         //
         //添加点击事件，进行转发或删除操作
-        messageDiv.onclick=function (event){
+        messageP.onclick=function (event){
             messageDiv.id="msgDelete";
             operateMessage(event,message);
         }
@@ -359,6 +366,7 @@ function send(){
 
 //下载文件
 function downloadFile(){
+    alert(localStorage.getItem("fileURL"))
     window.location.href=localStorage.getItem("fileURL");
 }
 
@@ -481,7 +489,7 @@ function showTransmission(friendName,message){
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     alert(friendName+message);//
-
+139.224.251.185:5050
 }
 
 
