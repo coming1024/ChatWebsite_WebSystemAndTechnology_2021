@@ -301,7 +301,7 @@ function addMessageDom(message,num){
         messageDiv.className="messageDiv";
         //
         //添加点击事件，进行转发或删除操作
-        messageDiv.onclick=function (event){
+        messageP.onclick=function (event){
             messageDiv.id="msgDelete";
             operateMessage(event,message);
         }
