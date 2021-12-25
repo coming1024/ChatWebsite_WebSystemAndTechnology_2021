@@ -359,6 +359,7 @@ function send(){
 
 //下载文件
 function downloadFile(){
+    alert(localStorage.getItem("fileURL"))
     window.location.href=localStorage.getItem("fileURL");
 }
 
