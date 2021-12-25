@@ -92,7 +92,7 @@
                     };
                     var test = localStorage.getItem("thisFriendName");
                     alert(test);
-                    fetch("http://localhost:8080/user/showInfo?username="+localStorage.getItem("thisFriendName"), requestOptions)
+                    fetch("http://139.224.251.185:5050/user/showInfo?username="+localStorage.getItem("thisFriendName"), requestOptions)
                         .then(response => response.text())
                         .then(result => showUser(result))
                         .catch(error => console.log('error', error));
@@ -133,7 +133,7 @@
                                 redirect: 'follow'
                             };
 
-                            fetch("http://localhost:8080/user/makeFriend", requestOptions)
+                            fetch("http://139.224.251.185:5050/user/makeFriend", requestOptions)
                                 .then(response => response.text())
                                 .then(result => changeFriend(result))
                                 .catch(error => console.log('error', error));
@@ -159,7 +159,7 @@
                                 redirect: 'follow'
                             };
 
-                            fetch("http://localhost:8080/user/deleteFriend", requestOptions)
+                            fetch("http://139.224.251.185:5050/user/deleteFriend", requestOptions)
                                 .then(response => response.text())
                                 .then(result => secondChange(result))
                                 .catch(error => console.log('error', error));

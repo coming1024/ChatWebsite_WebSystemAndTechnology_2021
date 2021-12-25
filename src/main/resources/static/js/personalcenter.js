@@ -44,7 +44,7 @@ function afterMakingsure(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/modifyInfo", requestOptions)
+    fetch("http://139.224.251.185:5050/user/modifyInfo", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -56,7 +56,7 @@ function afterMakingsure(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/showInfo?username="+localStorage.getItem("logName"), requestOptions)
+    fetch("http://139.224.251.185:5050/user/showInfo?username="+localStorage.getItem("logName"), requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -205,7 +205,7 @@ function setNewGroup(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/register", requestOptions)
+    fetch("http://139.224.251.185:5050/user/register", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error',error));

@@ -14,7 +14,7 @@ function registerIt(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/register", requestOptions)
+    fetch("http://139.224.251.185:5050/user/register", requestOptions)
         .then(response => response.text())
         .then(result => showRegister(result))
         .catch(error => console.log('error', error));

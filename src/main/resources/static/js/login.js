@@ -21,7 +21,7 @@ function clickIt(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/login", requestOptions)
+    fetch("http://139.224.251.185:5050/user/login", requestOptions)
         .then(response => response.text())
         .then(result => showLogin(result))
         .catch(error => console.log('error',error));
@@ -30,13 +30,13 @@ function clickIt(){
 function showLogin(result){
     if(result === "true"){
         alert("登录成功");
-        window.location.href="http://localhost:8080/home.html"
+        window.location.href="http://139.224.251.185:5050/home.html"
     }
     else{alert("登录失败");}
 }
 
 function gotoResgiter(){
-    window.location.href="http://localhost:8080/register.html"
+    window.location.href="http://139.224.251.185:5050/register.html"
 }
 
 

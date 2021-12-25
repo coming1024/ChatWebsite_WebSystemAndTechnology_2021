@@ -18,7 +18,7 @@ TestWebSocket
     //判断当前浏览器是否支持WebSocket
     if('WebSocket' in window){
         //连接WebSocket节点
-        websocket = new WebSocket("ws://localhost:8080/connectWebSocket/001");
+        websocket = new WebSocket("ws://139.224.251.185:5050/connectWebSocket/001");
     }
     else{
         alert('Not support websocket')
@@ -74,7 +74,7 @@ TestWebSocket
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/websocket/sendAll?msg="+message, requestOptions)
+        fetch("http://139.224.251.185:5050/websocket/sendAll?msg="+message, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));

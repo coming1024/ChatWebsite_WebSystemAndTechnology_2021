@@ -250,7 +250,7 @@
                                 redirect: 'follow'
                             };
 
-                            fetch("http://localhost:8080/files/upload", requestOptions)
+                            fetch("http://139.224.251.185:5050/files/upload", requestOptions)
                                 .then(response => response.text())
                                 .then(result => showFile(result))
                                 .catch(error => console.log('error', error));
@@ -262,7 +262,7 @@
                                 redirect: 'follow'
                             };
 
-                            fetch("http://localhost:8080/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
+                            fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
                                 .then(response => response.text())
                                 .then(result => setMessageInnerHTML(result,2))
                                 .catch(error => console.log('error', error));

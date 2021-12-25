@@ -10,7 +10,7 @@ var websocket = null;
 var mylogname = localStorage.getItem("logName");
 if ('WebSocket' in window){
     alert("support websocket");
-    websocket = new WebSocket('ws://localhost:8080/connectWebSocket/'+mylogname);
+    websocket = new WebSocket('ws://139.224.251.185:5050/connectWebSocket/'+mylogname);
     console.log(websocket)
 }
 else {
@@ -38,7 +38,7 @@ function SearchUser(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/checkusername", requestOptions)
+    fetch("http://139.224.251.185:5050/user/checkusername", requestOptions)
         .then(response => response.text())
         .then(result => whetherExistUsername(result))
         .catch(error => console.log('error', error));
@@ -106,14 +106,14 @@ function whetherExistUsername(result){
 function gotoPersonalCenter(){
     // localStorage.setItem("thisFriendName",targetedUsername);
     // window.location.href="http://localhost:8080/friendCenter.html"
-    window.location.href="http://localhost:8080/personalCenter.html"
+    window.location.href="http://139.224.251.185:5050/personalCenter.html"
 }
 
 function gotothisPersonCenter(){
     alert(targetedUsername);
     localStorage.setItem("thisFriendName",targetedUsername);
     alert(localStorage.getItem("thisFriendName"))
-    window.location.href="http://localhost:8080/friendCenter.html"
+    window.location.href="http://139.224.251.185:5050/friendCenter.html"
 }
 
 function NewAddDomUser(){
@@ -141,7 +141,7 @@ function gotoDiscussionWindow(){//动态加载聊天栏上方的username
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/getAllMessage?fromUsername=cyh&toUsername=mingbao", requestOptions)
+    fetch("http://139.224.251.185:5050/user/getAllMessage?fromUsername=cyh&toUsername=mingbao", requestOptions)
         .then(response => response.text())
         .then(result => dealHistoryMessage(result))
         .catch(error => console.log('error', error));
@@ -332,7 +332,7 @@ function send(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/websocket/sendTo?msg="+message+"&userId="+targetedUsername, requestOptions)
+    fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+message+"&userId="+targetedUsername, requestOptions)
         .then(response => response.text())
         .then(result => setMessageInnerHTML(result,2))
         .catch(error => console.log('error', error));
@@ -350,7 +350,7 @@ function send(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/pushMessage", requestOptions)
+    fetch("http://139.224.251.185:5050/user/pushMessage", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -378,7 +378,7 @@ function operateMessage(event,message){
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/user/getFriendList?username="+localStorage.getItem("logName"), requestOptions)
+        fetch("http://139.224.251.185:5050/user/getFriendList?username="+localStorage.getItem("logName"), requestOptions)
             .then(response => response.text())
             .then(result => FriendListTransmission(result,message))//显示在弹窗上
             .catch(error => console.log('error', error));
@@ -396,7 +396,7 @@ function operateMessage(event,message){
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/websocket/sendTo?msg="+"删除:"+message+"&userId="+targetedUsername, requestOptions)
+        fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+"删除:"+message+"&userId="+targetedUsername, requestOptions)
             .then(response => response.text())
             .then(result => setMessageInnerHTML(result,2))
             .catch(error => console.log('error', error));
@@ -464,7 +464,7 @@ function showTransmission(friendName,message){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/user/pushMessage", requestOptions)
+    fetch("http://139.224.251.185:5050/user/pushMessage", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -476,7 +476,7 @@ function showTransmission(friendName,message){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/websocket/sendTo?msg="+message+"&userId="+friendName, requestOptions)
+    fetch("http://139.224.251.185:5050/websocket/sendTo?msg="+message+"&userId="+friendName, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
