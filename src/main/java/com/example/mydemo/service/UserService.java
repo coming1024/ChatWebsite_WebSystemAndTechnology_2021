@@ -23,6 +23,7 @@ public interface UserService {
     List<Friend> getFriendList(String username);
     List<Message> getAllMessage(String fromUsername, String toUsername);
     boolean pushMyMessage(String messageContent,String fromUsername,String toUsername);
+    boolean setNewGroupMem(String username);
 }
 
 

@@ -79,5 +79,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean pushMyMessage(String messageContent,String fromUsername,String toUsername){ return userMapper.pushMessage(messageContent,fromUsername,toUsername);}
+
+    @Override
+    public boolean setNewGroupMem(String username){ return userMapper.setNewGroup(username);}
+
 }
 

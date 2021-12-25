@@ -45,6 +45,8 @@ public interface UserMapper {
     @Insert("insert into communication(messageContent,fromUsername,toUsername) values (#{messageContent},#{fromUsername},#{toUsername})")
     boolean pushMessage(@Param("messageContent")String messageContent,@Param("fromUsername")String fromUsername,@Param("toUsername")String toUsername);
 
+    @Insert("insert into user( username ) values (#{username})")
+    boolean setNewGroup(@Param("username")String username);
 }
 
 

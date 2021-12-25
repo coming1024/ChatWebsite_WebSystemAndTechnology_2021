@@ -107,4 +107,10 @@ public class UserController {
         return userServer.pushMyMessage(messageContent,fromUsername, toUsername);
     }
 
+    @CrossOrigin
+    @PostMapping(value = "/pushNewGroup")
+    public boolean pushGroup(@Param("username")String username){
+        return userServer.setNewGroupMem(username);
+    }
+
 }

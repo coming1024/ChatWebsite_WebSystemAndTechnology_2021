@@ -337,7 +337,7 @@ function send(){
         .then(result => setMessageInnerHTML(result,2))
         .catch(error => console.log('error', error));
     //websocket.send(message);
-    
+
     //将发送消息存入数据库以便拉取历史信息
     var formdata = new FormData();
     formdata.append("fromUsername", localStorage.getItem("logName"));
@@ -482,6 +482,10 @@ function showTransmission(friendName,message){
         .catch(error => console.log('error', error));
     alert(friendName+message);//
 
-
-
 }
+
+
+// function showNewGroup(groupName){
+//     addUserStyle();
+//     addDomUser(groupName);
+// }

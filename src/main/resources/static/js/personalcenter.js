@@ -136,6 +136,82 @@ var childs = document.getElementsByClassName("msgcard");
 //添加好友
 
 
+//关闭显示框div
+function closeGroupBox(){
+    var groupBox = document.getElementById("groupBox");
+    var groupLayer = document.getElementById("groupLayer");
+    groupBox.style.display = "none";
+    groupLayer.style.display = "none";
+}
+
+function FriendListSetGroup(result){
+    //处理json
+    var list = JSON.parse(result);
+    console.log(list)
+    var friendName=new Array(3);
+    // var FriendDiv=new Array(3);
+    for (var i=0;i<list.length;i++) {
+        //判断朋友名
+        if (list[i]["username1"] !== localStorage.getItem("logName")) {
+            friendName[i] = list[i]["username1"];
+        } else { friendName[i] = list[i]["username2"]; }
+        //显示到弹窗
+        // alert(friendName[i])
+        var FriendDiv = document.createElement("div");
+        FriendDiv.innerHTML=friendName[i];
+        FriendDiv.style.marginLeft="10px";
+        FriendDiv.style.marginTop="15px";
+        FriendDiv.className="FriendDiv";
+        FriendDiv.id = i;
+        //有误
+        // FriendDiv.onclick=function (event){ showTransmission(event,FriendDiv.id,message); }
+        var element = document.getElementById("SetGroupWindow");
+        element.appendChild(FriendDiv);
+    }
+    $("#0").on("click",function(){showAddGroupMember(friendName[0]);})
+    $("#1").on("click",function(){showAddGroupMember(friendName[1]);})
+    $("#2").on("click",function(){showAddGroupMember(friendName[2]);})
+    $("#3").on("click",function(){showAddGroupMember(friendName[3]);})
+    $("#4").on("click",function(){showAddGroupMember(friendName[4]);})
+
+}
+
+function showAddGroupMember(friendName){
+
+    var element = document.getElementById("addGroup");
+    element.innerHTML=element.innerHTML+friendName+" ";
+
+}
+
+function setNewGroup(){
+    var element = document.getElementById("addGroup");
+    var groupMember = element.innerHTML.split(' ');
+    var groupMemberList="";
+    for (var i=1;i<groupMember.length-1;i++){
+        groupMemberList+=groupMember[i];
+    }
+    console.log(groupMemberList)
+    //localStorage.setItem("groupName",groupMember);
+    //showNewGroup(localStorage.getItem("groupName"));
+
+    //输入检验
+    var formdata = new FormData();
+    formdata.append("username", groupMemberList);
+    formdata.append("password", "0");
+
+    var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/user/register", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error',error));
+}
+
+
 
 
 

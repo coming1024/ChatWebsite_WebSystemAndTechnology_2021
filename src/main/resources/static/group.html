@@ -1,0 +1,484 @@
+<html>
+<head>
+    <title>chat UI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="author" content="https://blog.csdn.net/q475254344">
+    <link rel="stylesheet" href="./css/chat.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+    <script src="./js/home.js"></script>
+    <script src="./js/group.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<script>
+    document.getElementsByTagName('body').height=window.innerHeight;
+</script>
+<body class="box">
+
+<div class="leftbar" >
+    <ul>
+        <li><i class="fas fa-user" onclick="gotoPersonalCenter()"></i></li>
+        <li><i class="fas fa-users"></i></li>
+        <li><i class="fas fa-smile"></i></li>
+        <li><i class="fas fa-envelope"></i></li>
+        <li><i class="fas fa-bell"></i></li>
+        <li><i class="fas fa-calendar-alt"></i></li>
+        <li><i class="fas fa-power-off"></i></li>
+    </ul>
+
+
+
+</div>
+<div class="mainbody middle">
+    <div class="form-box front">
+        <div class="container">
+            <div class="chatbox">
+                <!--弹出层-->
+                <div id="groupLayer"></div>
+                <div id="groupBox">
+                    <div class="close">
+                        <a href="javascript:void(0)" onclick="closeGroupBox()">关闭</a>
+                    </div>
+                    <div class="content" id="TransmissionWindow"></div>
+                    <!--            <script>-->
+                    <!--                //获取好友列表-->
+                    <!--                var requestOptions = {-->
+                    <!--                    method: 'GET',-->
+                    <!--                    redirect: 'follow'-->
+                    <!--                };-->
+
+                    <!--                fetch("http://localhost:8080/user/getFriendList?username="+localStorage.getItem("logName"), requestOptions)-->
+                    <!--                    .then(response => response.text())-->
+                    <!--                    .then(result => FriendListTransmission(result))//显示在弹窗上-->
+                    <!--                    .catch(error => console.log('error', error));-->
+                    <!--                //获取完好友列表-->
+                    <!--            </script>-->
+                </div>
+                <!--弹出层-->
+                <style>
+                    /*背景层*/
+                    #groupLayer {
+                        display: none;
+                        background-color: #B3B3B3;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        z-index: 10;
+                        -moz-opacity: 0.8;
+                        opacity:.80;
+                        filter: alpha(opacity=80);/* 只支持IE6、7、8、9 */
+                    }
+                    /*弹出层*/
+                    #groupBox {
+                        display: none;
+                        background-color: #FFFFFF;
+                        z-index: 11;
+                        width: 250px;
+                        height: 180px;
+                        position:fixed;
+                        top:0;
+                        right:0;
+                        left:0;
+                        bottom:0;
+                        margin:auto;border-radius:5px;
+                    }
+                    #groupBox .close{
+                        text-align: right;
+                        margin-right: 5px;
+                        background-color: #F8F8F8;border-top-left-radius:5px;border-top-right-radius:5px;
+                    }
+                    /*关闭按钮*/
+                    #groupBox .close a {
+                        text-decoration: none;
+                        color: #2D2C3B;
+                    }
+                </style>
+
+                <div class="chatleft">
+                    <div class="top">
+                        <span style="margin-left: 20px;">Group  Center</span>
+                        <i class="fas fa-bars" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;"></i>
+
+<!--                        <button class="searchbtn" onclick="SearchUser()"></style><i class="fas fa-search"></i></button>-->
+                    </div>
+                    <div class="center" >
+                        <ul id="UserInfoInsert">
+                            <li>
+                                <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                                <span style="margin-left: 10px;" id="inputLoginUsername">zlp\zzq</span>
+                                <!--                        <script>document.getElementById('inputLoginUsername').innerHTML="localStorage.getItem()";</script>-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="chatright">
+                    <div class="top">
+                        <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">
+                        <span style="margin-left: 20px;" id="wantedChangingName">Barack Obama</span>
+                        <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;" onclick="gotothisPersonCenter()"></i>
+                    </div>
+                    <div class="center" id="messageBox">
+
+                        <!--                &lt;!&ndash;右击菜单栏设计&ndash;&gt;-->
+                        <!--                <div class = "menu">-->
+                        <!--                    <ul>-->
+                        <!--                        <li onclick = "jy_menu(0)">转发</li>-->
+                        <!--                        &lt;!&ndash;        <li onclick = "jy_menu(1)">刷新(R)</li>&ndash;&gt;-->
+                        <!--                        &lt;!&ndash;        <li onclick = "jy_menu(2)">复制(C)</li>&ndash;&gt;-->
+                        <!--                        &lt;!&ndash;        <li onclick = "jy_menu(3)">粘贴(V)</li>&ndash;&gt;-->
+                        <!--                        &lt;!&ndash;        <li onclick = "jy_menu(4)">注销</li>&ndash;&gt;-->
+                        <!--                    </ul>-->
+                        <!--                </div>-->
+                        <!--                <style>-->
+                        <!--                    .menu{width:155px;background:#fff;box-shadow:1px 1px 30px #ccc;display:none;-->
+                        <!--                        position:absolute;}-->
+                        <!--                    .menu ul li{list-style:none;line-height:35px;padding-left:16px;-->
+                        <!--                        border-bottom:1px solid #ddd;}-->
+                        <!--                    .menu ul li:hover{background:#647E7C;color:#fff;}-->
+                        <!--                </style>-->
+
+                        <!--                <div style="float:right;">-->
+                        <!--                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                    <p class="msgcard">This message on the left!</p>-->
+                        <!--                </div>-->
+                        <!--                <div style="float:right;position: fixed">-->
+                        <!--                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                    <p class="msgcard">This message on the reft!</p>-->
+                        <!--                </div>-->
+                        <!--                <ul  class="ulleft">-->
+                        <!--                    <li class="messageLi">-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This message on the left!</p>-->
+                        <!--                    </li>-->
+                        <!--                </ul>-->
+                        <!--                <ul id="webSocketInputPlace" class="ulright">-->
+                        <!--                    <li class="messageLi">-->
+                        <!--                        <p class="msgcard">This message on the right!</p>-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+                        <!--                    </li>-->
+                        <!--                </ul>-->
+                        <!--                <ul  class="ulleft">-->
+                        <!--                    <li class="messageLi">-->
+                        <!--&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This message on the right!</p>-->
+                        <!--                        &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+                        <!--                    </li>-->
+                        <!--                </ul>-->
+                        <!--                <ul>-->
+                        <!--                    <li>-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This message on the left!</p>-->
+                        <!--                    </li>-->
+                        <!--                </ul>-->
+                        <!--                    <li class="msgleft">-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+                        <!--                    </li>-->
+                        <!--                    <li class="msgright">-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This message on the right!</p>-->
+                        <!--                    </li>-->
+                        <!--                    <li class="msgleft">-->
+                        <!--                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">-->
+                        <!--                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>-->
+                        <!--                    </li>-->
+                    </div>
+                    <div class="footer">
+                        <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..." id="testWebsocket"></textarea>
+                        <form target="id_iframe" enctype="multipart/form-data" method="post" style="float:left;margin-left: 10px;">
+                            <input type='file'>
+                            <button class="sendbtn" id="upload-btn">上传文件</button>
+                        </form>
+                        <iframe id="id_iframe" name="id_iframe" style="display:none;"></iframe>
+                        <button class="sendbtn" onclick="send()">发送</button>
+                        <script>
+                            //上传文件处理
+                            $(function () {
+                                var files = [];
+                                // 操作dom获取input的数据，多个input的话，用id获取
+                                $(document).ready(function(){
+                                    $("input").change(function(){
+                                        files = this.files;
+                                    });
+                                });
+                                // 绑定点击事件，ajax请求
+                                $("#upload-btn").click(function () {
+                                    var formData = new FormData();
+                                    for (var i = 0; i < files.length; i++) {
+                                        // "file"是后台接口的参数名
+                                        console.log(files[i]["name"]);
+                                        //保存文件名
+                                        localStorage.setItem("fileName", files[i]["name"]);
+                                        formData.append("file", files[i]);
+                                    }
+
+                                    // $.ajax({
+                                    //     url : "http://localhost:8080/files/upload",
+                                    //     type : 'POST',
+                                    //     data : formData,
+                                    //     contentType : false,
+                                    //     processData : false,
+                                    //     cache : false,
+                                    //     success : function(data) {
+                                    //         console.log("成功!");
+                                    //     }
+                                    // });
+
+
+                                    //上传文件
+                                    var requestOptions = {
+                                        method: 'POST',
+                                        body: formData,
+                                        redirect: 'follow'
+                                    };
+
+                                    fetch("http://localhost:8080/files/upload", requestOptions)
+                                        .then(response => response.text())
+                                        .then(result => showFile(result))
+                                        .catch(error => console.log('error', error));
+                                    /////返回文件下载路径
+
+                                    //同步websocket
+                                    var requestOptions = {
+                                        method: 'GET',
+                                        redirect: 'follow'
+                                    };
+
+                                    fetch("http://localhost:8080/websocket/sendTo?msg="+"文件:  "+localStorage.getItem("fileName")+"&userId="+targetedUsername, requestOptions)
+                                        .then(response => response.text())
+                                        .then(result => setMessageInnerHTML(result,2))
+                                        .catch(error => console.log('error', error));
+
+                                    alert("上传成功")
+                                })
+                            })
+
+                            function showFile(result){
+                                // //添加消息内容
+                                // var messageP = document.createElement("p");
+                                // messageP.className="msgcard";
+                                // var node = document.createTextNode("上传文件:  "+localStorage.getItem("fileName"));
+                                // messageP.appendChild(node);
+                                // //添加文件图标
+                                // var fileImg = document.createElement("img");
+                                // fileImg.src="./img/file.png"
+                                // fileImg.className="messageImg"
+                                // fileImg.width=30;
+                                // fileImg.height=30;
+                                // //
+                                localStorage.setItem("fileURL",result);
+                                // //
+                                // fileImg.onclick=Function("downloadFile()");
+                                // //添加img
+                                // var messageImg = document.createElement("img");
+                                // messageImg.src="http://placehold.it/40x40";
+                                // messageImg.className = "messageImg";
+                                // //添加li
+                                // var messageP2 = document.createElement("p");
+                                // messageP2.appendChild(fileImg);
+                                // messageP2.appendChild(messageP);
+                                // messageP2.appendChild(messageImg);
+                                // // messageP2.className="messageLi"
+                                // // //添加ul
+                                // var messageDiv = document.createElement("div");
+                                // messageDiv.appendChild(messageP2);
+                                // // messageDiv.className="ulright";
+                                // // var element = document.getElementById("webSocketInputPlace");
+                                // var element = document.getElementById("messageBox");
+                                // element.appendChild(messageDiv);
+                                //
+                                // messageDiv.style.overflow="hidden";
+                                // messageP2.style.float="right";
+                            }
+
+                            // function downloadFile(){
+                            //     window.location.href=localStorage.getItem("fileURL");
+                            // }
+
+                        </script>
+
+                        <!--                <p>Click here to <a id="signup">注册</a></p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    <script>-->
+        <!--        // 点击sigup触发翻转样式-->
+        <!--        $("#signup").click(function() {-->
+        <!--            $(".middle").toggleClass("middle-flip");-->
+        <!--        });-->
+        <!--    </script>-->
+    </div>
+    <!--<div class="form-box back">-->
+    <!--    <div class="container">-->
+    <!--        <div class="chatbox">-->
+    <!--            <div class="chatleft">-->
+    <!--                <div class="top">-->
+    <!--                    <i class="fas fa-bars" style="font-size: 1.4em"></i>-->
+    <!--                    <input type="text" id="inputUsername1" placeholder="search" style="width: 140px; height: 36px; margin-left: 25px;">-->
+    <!--                    <button class="searchbtn" onclick="SearchUser()"></style><i class="fas fa-search"></i></button>-->
+    <!--                </div>-->
+    <!--                <div class="center" >-->
+    <!--                    <ul id="UserInfoInsert1">-->
+    <!--                        <li>-->
+    <!--                            <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+    <!--                            <span style="margin-left: 10px;" id="inputLoginUsername1">Personal Center</span>-->
+    <!--                            &lt;!&ndash;                        <script>document.getElementById('inputLoginUsername').innerHTML="localStorage.getItem()";</script>&ndash;&gt;-->
+    <!--                        </li>-->
+    <!--                    </ul>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="chatright">-->
+    <!--                <div class="top">-->
+    <!--                    <img style="border-radius: 20px; vertical-align: middle;" src="http://placehold.it/40x40">-->
+    <!--                    <span style="margin-left: 20px;" id="wantedChangingName1">Barack Obama</span>-->
+    <!--                    <i class="fas fa-ellipsis-v" style="font-size: 1.4em; position: absolute; right: 20px; color: gray;" onclick="gotothisPersonCenter()"></i>-->
+    <!--                </div>-->
+    <!--                <div class="center" id="messageBox1">-->
+    <!--                    &lt;!&ndash;                <div style="float:right;">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </div>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                <div style="float:right;position: fixed">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <p class="msgcard">This message on the reft!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </div>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                <ul  class="ulleft">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                <ul id="webSocketInputPlace" class="ulright">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                <ul  class="ulleft">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="messageLi">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;&lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                <ul>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This message on the left!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                </ul>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="msgleft">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="msgright">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This message on the right!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    <li class="msgleft">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <img style="border-radius: 20px; vertical-align: top;" src="http://placehold.it/40x40">&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                        <p class="msgcard">This is a long message! This is a long message! This is a long left message!</p>&ndash;&gt;-->
+    <!--                    &lt;!&ndash;                    </li>&ndash;&gt;-->
+    <!--                </div>-->
+    <!--                <div class="footer">-->
+    <!--                    <textarea maxlength="800" rows="5" cols="40" style="width: 100%; resize: none; border: none; " placeholder="请在此输入要发送的内容..." id="testWebsocket1"></textarea>-->
+    <!--                    <button class="sendbtn" onclick="send()">发送</button>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+</div>
+
+<!--&lt;!&ndash;鼠标右击控制菜单栏&ndash;&gt;-->
+<!--<script>-->
+<!--    //首先屏蔽到浏览器自带的右键功能-->
+<!--    document.oncontextmenu = function(){-->
+<!--        return false;-->
+<!--    };-->
+<!--    //鼠标控制-->
+<!--    //点击鼠标三键-->
+<!--    $("#messageBox").mousedown(function(e){-->
+<!--        //1是左键；2是中间键；3是右键-->
+<!--        var key = e.which;-->
+<!--        if(key === 3){-->
+<!--            var x = e.clientX; //x坐标-->
+<!--            var y = e.clientY; //y坐标-->
+<!--            //获取menu的长宽-->
+<!--            var menuHeight = $(".menu").height();-->
+<!--            var menuWidth = $(".menu").width();-->
+<!--            //获取浏览器的可见长宽-->
+<!--            var clintHeight = getClientHeight();-->
+<!--            var clintWidth = getClientWidth();-->
+<!--            //判断-->
+<!--            if(menuHeight + y >= clintHeight){-->
+<!--                y = clintHeight - menuHeight - 8;-->
+<!--            }-->
+<!--            if(menuWidth + x >= clintWidth){-->
+<!--                x = clintWidth - menuWidth - 8;-->
+<!--            }-->
+<!--            //之前必须要绝对定位才行-->
+<!--            $(".menu").show().css({left:x,top:y});-->
+<!--        }-->
+<!--    });-->
+
+<!--    //点击空白隐藏鼠标右键-->
+<!--    $("#messageBox").click(function(){-->
+<!--        $(".menu").hide();-->
+<!--    });-->
+
+
+<!--    //响应事件-->
+<!--    function jy_menu(i){-->
+<!--        switch(i){-->
+<!--            case 0:-->
+<!--                getMessage("这是转发操作");break;-->
+<!--            case 1:-->
+<!--                alert("这是刷新操作");break;-->
+<!--            case 2:-->
+<!--                alert("这是复制操作");break;-->
+<!--            case 3:-->
+<!--                alert("这是粘贴操作");break;-->
+<!--            default:-->
+<!--                alert("这是注销操作");-->
+<!--        }-->
+<!--    }-->
+<!--    // 浏览器的可见高度-->
+<!--    function getClientHeight() {-->
+<!--        var clientHeight = 0;-->
+<!--        if (document.body.clientHeight && document.documentElement.clientHeight) {-->
+<!--            clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight;-->
+<!--        } else {-->
+<!--            clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight: document.documentElement.clientHeight;-->
+<!--        }-->
+<!--        return clientHeight;-->
+<!--    }-->
+
+<!--    // 浏览器的可见宽度-->
+<!--    function getClientWidth() {-->
+<!--        var clientWidth = 0;-->
+<!--        if (document.body.clientWidth && document.documentElement.clientWidth) {-->
+<!--            clientWidth = (document.body.clientWidth < document.documentElement.clientWidth) ? document.body.clientWidth: document.documentElement.clientWidth;-->
+<!--        } else {-->
+<!--            clientWidth = (document.body.clientWidth > document.documentElement.clientWidth) ? document.body.clientWidth: document.documentElement.clientWidth;-->
+<!--        }-->
+<!--        return clientWidth;-->
+<!--    }-->
+
+<!--    function getMessage(){-->
+<!--        var parents=document.getElementsByClassName(".msgcard");-->
+<!--        console.log(parents);-->
+<!--    }-->
+
+<!--</script>-->
+
+</body>
+
+</html>
