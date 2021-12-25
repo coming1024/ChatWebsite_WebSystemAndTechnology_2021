@@ -28,7 +28,7 @@ public class FileController {
         String rootFilePath = System.getProperty("user.dir")+"\\src\\main\\resources\\file\\"+flag+"_"+originalFilename;
         System.out.println(rootFilePath);
         FileUtil.writeBytes(file.getBytes(),rootFilePath);
-        return "http://localhost:8080/files/"+flag;
+        return "http://139.224.251.185:5050/files/"+flag;
     }
 
 
