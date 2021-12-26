@@ -211,6 +211,18 @@ function setNewGroup(){
         .catch(error => console.log('error',error));
 }
 
+        function confirmInfo(){
+            console.log("enter")
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+            fetch("http://139.224.251.185:5050/user/showInfo?username="+localStorage.getItem("logName"), requestOptions)
+                .then(response => response.text())
+                .then(result => showUser(result))
+                .catch(error => console.log('error', error));
+        }
+
 
 
 
