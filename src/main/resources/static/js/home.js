@@ -141,7 +141,7 @@ function gotoDiscussionWindow(){//动态加载聊天栏上方的username
         redirect: 'follow'
     };
 
-    fetch("http://139.224.251.185:5050/user/getAllMessage?fromUsername=cyh&toUsername=mingbao", requestOptions)
+    fetch("http://139.224.251.185:5050/user/getAllMessage?fromUsername="+localStorage.getItem("logName")+"&toUsername="+targetedUsername, requestOptions)
         .then(response => response.text())
         .then(result => dealHistoryMessage(result))
         .catch(error => console.log('error', error));
